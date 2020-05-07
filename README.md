@@ -1,4 +1,1 @@
-### Dependencies
-```
-galio-framework
-```
+### Sentrace
