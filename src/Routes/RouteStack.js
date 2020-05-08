@@ -5,10 +5,14 @@ import Home from '../Views/Home';
 import NumberScreen from '../Views/NumberScreen';
 import OTPScreen from '../Views/OTPScreen';
 import RegistrationScreen from '../Views/RegistrationScreen';
+import LoginScreen from '../Views/LoginScreen';
 
 const screens = {
     NumberScreen: {
         screen: NumberScreen
+    },
+    LoginScreen: {
+        screen: LoginScreen
     },
     OTPScreen: {
         screen: OTPScreen

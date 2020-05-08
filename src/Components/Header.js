@@ -1,20 +1,21 @@
 import React from 'react'
-import { StyleSheet, View, Dimensions } from 'react-native'
-import { Block, theme, Text } from 'galio-framework'
+import { StyleSheet, Dimensions, ImageBackground } from 'react-native'
+import { Block, Text, NavBar, theme } from 'galio-framework'
 
 const { height, width } = Dimensions.get('screen');
 
 const Header = (props) => {
     return (
-        <Block shadow flex row style={[styles.container, {backgroundColor: props.bgColor} ]}>
-            <Text
-            color={props.color}
-            h5
-            bold
-            >
-            {props.title}
-            </Text>
+        <Block style={styles.container}>
+            <ImageBackground source={require('../Assets/Images/headerBG.png')} style={styles.header}>
+            <NavBar
+                title={props.title}
+                titleStyle={{ fontSize: 20 }}
+                transparent
+            ></NavBar>
+            </ImageBackground>
         </Block>
+
     )
 }
 
@@ -27,5 +28,10 @@ const styles = StyleSheet.create({
         width: width,
         justifyContent: "center",
         alignItems: "center",
+        zIndex: 1
+    },
+    header: {
+        width: width,
+        backgroundColor: "#f5f5f5",
     },
 })

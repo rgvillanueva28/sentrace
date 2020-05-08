@@ -7,18 +7,24 @@ import {
     Text,
     Input,
     Button,
-    Block
+    Block,
+    NavBar,
+    theme
 } from 'galio-framework';
 import Header from '../Components/Header'
 
 function OTPScreen({ navigation }) {
     let phoneNum = navigation.getParam('phoneNum')
+    let newUser = navigation.getParam('newUser')
     const [OTP, setOTP] = useState("");
 
     const goToRegistration = () => {
         //if wrong OTP: throw an error message
-        //if else new user
-        navigation.push("RegistrationScreen", { phoneNum })
+        if (newUser == true) {
+            navigation.push("RegistrationScreen", { phoneNum })
+        } else {
+            navigation.push("Home", { phoneNum })
+        }
 
         //else (existing user)
         //navigation.push("Home");
@@ -26,26 +32,28 @@ function OTPScreen({ navigation }) {
 
     return (
         <KeyboardAvoidingView style={styles.wrapper}>
-            <Header title="SIGN UP" bgColor="white" color="black" />
+            <Header title="Sign up"/>
 
             <Block flex style={styles.container}>
 
-                <Text center> Please enter the One Time Pin (OTP) sent to your phone {phoneNum} </Text>
+                <Text p center>
+                    Please enter the One Time Pin (OTP) sent to your phone {phoneNum}
+                </Text>
                 {/* <Text> OTP Screen = {OTP} </Text> */}
                 <Input
                     placeholder="123456"
                     label="OTP"
-                    color="black"
+                    color={theme.COLORS.INFO}
+                    style={{ borderColor: theme.COLORS.INFO }}
                     rounded
-                    borderless
-                    right
                     autoCompleteType="off"
                     maxLength={6}
                     keyboardType={'numeric'}
+                    center
                     onChangeText={(val) => setOTP(val)}
                 />
                 <Button
-                    color="0000FF"
+                    color={theme.COLORS.INFO}
                     size="small"
                     round
                     onPress={goToRegistration}
@@ -64,7 +72,7 @@ const styles = StyleSheet.create({
     container: {
         alignItems: "center",
         justifyContent: "center",
-        backgroundColor: "#0099ff",
+        backgroundColor: "white",
         padding: 25,
         paddingBottom: 100
     },

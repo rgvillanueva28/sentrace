@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-import { StyleSheet, Image, Alert, BackHandler } from 'react-native';
-import { Block, theme, Text } from 'galio-framework';
+import { StyleSheet, Image, Alert, BackHandler, ImageBackground } from 'react-native';
+import { Block, theme, Text, NavBar } from 'galio-framework';
 import Header from '../Components/Header';
 
 function Home({ navigation }) {
@@ -34,51 +34,45 @@ function Home({ navigation }) {
 
     return (
         <Block safe flex style={styles.mainContainer}>
-            <Header title="SENTRACE" bgColor="blue" color="black" />
-            <Block style={styles.container}>
-                {/* remove texts */}
-                <Text color="white" center>
-                    {phoneNum}
-                </Text>
-                <Text color="white" center>
-                    {fName}
-                </Text>
-                <Text color="white" center>
-                    {mName}
-                </Text>
-                <Text color="white" center>
-                    {lName}
-                </Text>
-                <Text color="white" center>
-                    {email}
-                </Text>
+            {/* <Header title="SENTRACE" /> */}
+            <ImageBackground source={require('../Assets/Images/BG.png')} style={styles.imgBG} imageStyle={{opacity: 0.5}}>
+                <Block style={styles.container}>
 
-                <Block center>
-                    <Image
-                        source={require('../Assets/Images/logo200x200.png')}
-                        style={styles.imageCenter}
-                    ></Image>
+                    <Block center style={styles.imageContainer}>
+                        <Image
+                            source={require('../Assets/Images/logo200x200.png')}
+                            style={styles.imageCenter}
+                        ></Image>
+                    </Block>
+
+                    {/* <Text style={styles.titleText}>SENTRACE</Text> */}
+                    <Text center h1>
+                        SENTRACE
+                    </Text>
+                    <Text
+                        style={styles.contentText}
+                    >
+                        Lorem ipsum this wil contain the text if there will be any. Project Sentinel's SENTRACE Application
+</Text>
                 </Block>
+            </ImageBackground>
 
-                {/* <Text style={styles.titleText}>SENTRACE</Text> */}
-                <Text
-                    style={styles.contentText}
-                    color="white"
-                >
-                    Lorem ipsum this wil contain the text if there will be any. Project Sentinel's SENTRACE Application
-            </Text>
-            </Block>
         </Block>
     )
 }
 
 const styles = StyleSheet.create({
     mainContainer: {
-        backgroundColor: '#222',
+        backgroundColor: 'white',
     },
     container: {
         alignContent: "center",
         justifyContent: "center",
+    },
+    imageContainer: {
+        width: "100%",
+        paddingTop: 50,
+        backgroundColor: "rgba(255,255,255,0.75)",
     },
     titleText: {
         fontSize: 20,
@@ -92,6 +86,10 @@ const styles = StyleSheet.create({
     imageCenter: {
         alignItems: "center",
         width: 350
+    },
+    imgBG: {
+        height: "100%",
+        backgroundColor: "#ffffff",
     },
 })
 

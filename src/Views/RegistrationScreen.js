@@ -1,9 +1,11 @@
 import React, { Component, useState } from 'react';
-import { Text, View, StyleSheet, KeyboardAvoidingView } from 'react-native';
+import { Text, View, StyleSheet, KeyboardAvoidingView, ScrollView } from 'react-native';
 import {
     Input,
     Button,
-    Block
+    Block,
+    NavBar,
+    theme
 } from 'galio-framework';
 import { StackActions } from '@react-navigation/native';
 import Header from '../Components/Header'
@@ -32,77 +34,75 @@ function RegistrationScreen({ navigation }) {
 
     return (
         <KeyboardAvoidingView style={styles.wrapper}>
-            <Header title="SIGN UP" bgColor="white" color="black" />
+            <Header title="Sign up"/>
 
-            <Block flex safe style={styles.container}>
-                <Text> Phone number = {phoneNum} </Text>
-                <Input
-                    placeholder="Juan"
-                    label="First Name"
-                    color="black"
-                    rounded
-                    borderless
-                    right
-                    autoCompleteType="off"
-                    maxLength={30}
-                    onChangeText={(val) => setFName(val)}
-                />
-                <Input
-                    placeholder="Dalisay"
-                    label="Middle Name"
-                    color="black"
-                    rounded
-                    borderless
-                    right
-                    autoCompleteType="off"
-                    maxLength={30}
-                    onChangeText={(val) => setMName(val)}
-                />
-                <Input
-                    placeholder="De La Cruz"
-                    label="Last Name"
-                    color="black"
-                    rounded
-                    borderless
-                    right
-                    autoCompleteType="off"
-                    maxLength={30}
-                    onChangeText={(val) => setLName(val)}
-                />
-                <Input
-                    placeholder="juandlc99@yahoo.com"
-                    label="Email"
-                    color="black"
-                    type="email-address"
-                    rounded
-                    borderless
-                    right
-                    autoCompleteType="off"
-                    maxLength={35}
-                    onChangeText={(val) => setEmail(val)}
-                />
-                <Input
-                    placeholder="Password"
-                    label="Password"
-                    color="black"
-                    password
-                    viewPass
-                    rounded
-                    borderless
-                    right
-                    autoCompleteType="off"
-                    maxLength={35}
-                    onChangeText={(val) => setPasswd(val)}
-                />
-                <Button
-                    color="0000FF"
-                    size="small"
-                    round
-                    style={{marginTop:30}}
-                    onPress={goToHome}
-                >CONFIRM</Button>
-            </Block>
+            <ScrollView style={styles.avoidScroll} behavior="height">
+                <Block flex center style={styles.container}>
+                    <Input
+                        placeholder="Juan"
+                        label="First Name"
+                        color={theme.COLORS.INFO}
+                        style={{ borderColor: theme.COLORS.INFO }}
+                        rounded
+                        autoCompleteType="off"
+                        maxLength={30}
+                        onChangeText={(val) => setFName(val)}
+                    />
+                    <Input
+                        placeholder="Dalisay"
+                        label="Middle Name"
+                        color={theme.COLORS.INFO}
+                        style={{ borderColor: theme.COLORS.INFO }}
+                        rounded
+                        autoCompleteType="off"
+                        maxLength={30}
+                        onChangeText={(val) => setMName(val)}
+                    />
+                    <Input
+                        placeholder="De La Cruz"
+                        label="Last Name"
+                        color={theme.COLORS.INFO}
+                        style={{ borderColor: theme.COLORS.INFO }}
+                        rounded
+                        autoCompleteType="off"
+                        maxLength={30}
+                        onChangeText={(val) => setLName(val)}
+                    />
+                    <Input
+                        placeholder="juandlc99@yahoo.com"
+                        label="Email"
+                        type="email-address"
+                        color={theme.COLORS.INFO}
+                        style={{ borderColor: theme.COLORS.INFO }}
+                        rounded
+                        autoCompleteType="off"
+                        maxLength={35}
+                        onChangeText={(val) => setEmail(val)}
+                    />
+                    <Input
+                        placeholder="Password"
+                        label="Password"
+                        color="black"
+                        password
+                        viewPass
+                        color={theme.COLORS.INFO}
+                        style={{ borderColor: theme.COLORS.INFO }}
+                        rounded
+                        autoCompleteType="off"
+                        maxLength={35}
+                        onChangeText={(val) => setPasswd(val)}
+                    />
+                    <Button
+                        color={theme.COLORS.INFO}
+                        size="small"
+                        round
+                        style={{ marginTop: 30 }}
+                        onPress={goToHome}
+                    >CONFIRM</Button>
 
+                </Block>
+
+            </ScrollView>
         </KeyboardAvoidingView>
     )
 }
@@ -111,10 +111,15 @@ const styles = StyleSheet.create({
     wrapper: {
         flex: 1,
     },
+    avoidScroll: {
+        flex: 1,
+        flexDirection:"column",
+        backgroundColor: "white",
+    },
     container: {
-        alignItems: "center",
         justifyContent: "center",
-        backgroundColor: "#0099ff",
+        alignItems: "center",
+        backgroundColor: "white",
         padding: 25,
         paddingBottom: 100
     },
