@@ -1,21 +1,10 @@
-import React from 'react'
-
-import { StyleSheet } from 'react-native'
-
-import { Block } from 'galio-framework'
+import React from 'react';
+import Navigator from './Routes/RouteStack';
 
 const App = () => {
     return (
-        <Block safe flex style={styles.mainContainer}>
-            <Text>Add thy elements here</Text>
-        </Block>
+        <Navigator />
     )
 }
-
-const styles= StyleSheet.create({
-    mainContainer: {
-        backgroundColor: '#222'
-    }
-})
 
 export default App
