@@ -4,12 +4,10 @@ import {
   NativeModules,
   PermissionsAndroid,
   Platform,
-  Text,
   ToastAndroid,
-  View
 } from 'react-native'
 
-import { Block, Button, Checkbox } from 'galio-framework'
+import { Block, Button, Checkbox, Text } from 'galio-framework'
 
 const { BlueModule } = NativeModules
 
@@ -77,17 +75,16 @@ export default class Tracer extends Component {
   render() {
     if (this.state.isCompatibilityTestFinished) {
       return (
-        <View>
-          <Text>Compatibility Tests Done.</Text>
-        </View>
+        <Block>
+          <Text p>Compatibility Tests Done.</Text>
+        </Block>
       )
     } else {
       return (
-        <View>
-          <Text>Testing for Compatibility...</Text>
-        </View>
+        <Block>
+          <Text p>Testing for Compatibility...</Text>
+        </Block>
       )
     }
   }
-
 }

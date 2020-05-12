@@ -1,7 +1,8 @@
 import React, { Component, useState } from 'react';
 import {
     KeyboardAvoidingView,
-    StyleSheet
+    StyleSheet,
+    Alert,
 } from 'react-native';
 import {
     Text,
@@ -15,24 +16,24 @@ import Header from '../Components/Header'
 
 function OTPScreen({ navigation }) {
     let phoneNum = navigation.getParam('phoneNum')
-    let newUser = navigation.getParam('newUser')
     const [OTP, setOTP] = useState("");
+    const [OTPError, setOTPError] = useState("");
+
 
     const goToRegistration = () => {
-        //if wrong OTP: throw an error message
-        if (newUser == true) {
-            navigation.push("RegistrationScreen", { phoneNum })
+        if (OTP.trim().length < 6) {
+            setOTPError('OTP must be 6 digits.\nTemporary. Still don\'t know the format of the OTP')
+            //Temporary. I still don't know the format of the OTP
+            //Alert.alert('Error', 'OTP must be 6 digits.\nTemporary. Still don\'t know the format of the OTP');
+            return;
         } else {
-            navigation.push("Home", { phoneNum })
+            navigation.push("RegistrationScreen", { phoneNum })
         }
-
-        //else (existing user)
-        //navigation.push("Home");
     }
 
     return (
         <KeyboardAvoidingView style={styles.wrapper}>
-            <Header title="Sign up"/>
+            <Header title="Sign up" />
 
             <Block flex style={styles.container}>
 
@@ -42,7 +43,6 @@ function OTPScreen({ navigation }) {
                 {/* <Text> OTP Screen = {OTP} </Text> */}
                 <Input
                     placeholder="123456"
-                    label="OTP"
                     color={theme.COLORS.INFO}
                     style={{ borderColor: theme.COLORS.INFO }}
                     rounded
@@ -50,7 +50,13 @@ function OTPScreen({ navigation }) {
                     maxLength={6}
                     keyboardType={'numeric'}
                     center
-                    onChangeText={(val) => setOTP(val)}
+                    bottomHelp
+                    help={
+                        <Text style={{color:theme.COLORS.ERROR}}>
+                            {OTPError === '' ? null : OTPError}
+                        </Text>
+                    }
+                    onChangeText={(val) => { setOTP(val); setOTPError('') }}
                 />
                 <Button
                     color={theme.COLORS.INFO}

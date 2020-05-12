@@ -1,40 +1,99 @@
 import React, { Component, useState } from 'react';
-import { Text, View, StyleSheet, KeyboardAvoidingView, ScrollView } from 'react-native';
+import {
+    Text,
+    View,
+    StyleSheet,
+    KeyboardAvoidingView,
+    ScrollView,
+    Alert,
+    ToastAndroid,
+} from 'react-native';
 import {
     Input,
     Button,
     Block,
     NavBar,
-    theme
+    theme,
 } from 'galio-framework';
 import { StackActions } from '@react-navigation/native';
 import Header from '../Components/Header'
 
 function RegistrationScreen({ navigation }) {
     let phoneNum = navigation.getParam('phoneNum')
+    let emailRegEx = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    let validEmailFlag = false;
+    let validNameFlag = false;
+
     const [fName, setFName] = useState("");
     const [mName, setMName] = useState("");
     const [lName, setLName] = useState("");
     const [email, setEmail] = useState("");
-    const [passwd, setPasswd] = useState("");
+
+    const [fNameError, setFNameError] = useState("");
+    const [mNameError, setMNameError] = useState("");
+    const [lNameError, setLNameError] = useState("");
+    const [emailError, setEmailError] = useState("");
 
     const goToHome = () => {
-        //if new
-        navigation.push("Home", {
-            fName: fName,
-            mName: mName,
-            lName: lName,
-            email: email,
-            phoneNum: phoneNum,
-        })
+        nameValidate()
+        emailValidate()
 
-        //else
-        //navigation.push("Home");
+        if (validNameFlag && validEmailFlag) {
+            //if new
+           
+            navigation.push("Home", {
+                fName: fName,
+                mName: mName,
+                lName: lName,
+                email: email,
+                phoneNum: phoneNum,
+            })
+
+            //else
+            //navigation.push("Home");
+        } else {
+            ToastAndroid.showWithGravityAndOffset('Please check fields with error.', ToastAndroid.LONG, ToastAndroid.BOTTOM, 25, 200)
+        }
+
     }
+
+    const emailValidate = () => {
+        if (email.trim() === '') {
+            setEmailError('Please enter your Email')
+            validEmailFlag = false;
+        } else if (emailRegEx.test(email.trim()) === false) {
+            setEmailError('Invalid Email format')
+            validEmailFlag = false;
+        } else {
+            validEmailFlag = true;
+        }
+    }
+
+    const nameValidate = () => {
+        if (fName.trim() === '') {
+            setFNameError('Please enter your First Name');
+            validNameFlag = false;
+        }
+        if (mName.trim() === '') {
+            setMNameError('Please enter your Middle Name');
+            validNameFlag = false;
+        }
+        if (lName.trim() === '') {
+            setLNameError('Please enter your Last Name');
+            validNameFlag = false;
+        }
+        else {
+            setFNameError('');
+            setMNameError('');
+            setLNameError('');
+            validNameFlag = true;
+        }
+    }
+
 
     return (
         <KeyboardAvoidingView style={styles.wrapper}>
-            <Header title="Sign up"/>
+            <Header title="Sign up" />
 
             <ScrollView style={styles.avoidScroll} behavior="height">
                 <Block flex center style={styles.container}>
@@ -46,7 +105,13 @@ function RegistrationScreen({ navigation }) {
                         rounded
                         autoCompleteType="off"
                         maxLength={30}
-                        onChangeText={(val) => setFName(val)}
+                        bottomHelp
+                        help={
+                            <Text style={{color:theme.COLORS.ERROR}}>
+                                {fNameError === '' ? null : fNameError}
+                            </Text>
+                        }
+                        onChangeText={(val) => { setFName(val); setFNameError(''); }}
                     />
                     <Input
                         placeholder="Dalisay"
@@ -56,7 +121,13 @@ function RegistrationScreen({ navigation }) {
                         rounded
                         autoCompleteType="off"
                         maxLength={30}
-                        onChangeText={(val) => setMName(val)}
+                        bottomHelp
+                        help={
+                            <Text style={{color:theme.COLORS.ERROR}}>
+                                {mNameError === '' ? null : mNameError}
+                            </Text>
+                        }
+                        onChangeText={(val) => { setMName(val); setMNameError(''); }}
                     />
                     <Input
                         placeholder="De La Cruz"
@@ -66,7 +137,13 @@ function RegistrationScreen({ navigation }) {
                         rounded
                         autoCompleteType="off"
                         maxLength={30}
-                        onChangeText={(val) => setLName(val)}
+                        bottomHelp
+                        help={
+                            <Text style={{color:theme.COLORS.ERROR}}>
+                                {lNameError === '' ? null : lNameError}
+                            </Text>
+                        }
+                        onChangeText={(val) => { setLName(val); setLNameError(''); }}
                     />
                     <Input
                         placeholder="juandlc99@yahoo.com"
@@ -77,20 +154,13 @@ function RegistrationScreen({ navigation }) {
                         rounded
                         autoCompleteType="off"
                         maxLength={35}
-                        onChangeText={(val) => setEmail(val)}
-                    />
-                    <Input
-                        placeholder="Password"
-                        label="Password"
-                        color="black"
-                        password
-                        viewPass
-                        color={theme.COLORS.INFO}
-                        style={{ borderColor: theme.COLORS.INFO }}
-                        rounded
-                        autoCompleteType="off"
-                        maxLength={35}
-                        onChangeText={(val) => setPasswd(val)}
+                        bottomHelp
+                        help={
+                            <Text style={{color:theme.COLORS.ERROR}}>
+                                {emailError === '' ? null : emailError}
+                            </Text>
+                        }
+                        onChangeText={(val) => { setEmail(val); setEmailError(''); }}
                     />
                     <Button
                         color={theme.COLORS.INFO}
@@ -113,7 +183,7 @@ const styles = StyleSheet.create({
     },
     avoidScroll: {
         flex: 1,
-        flexDirection:"column",
+        flexDirection: "column",
         backgroundColor: "white",
     },
     container: {
@@ -121,7 +191,6 @@ const styles = StyleSheet.create({
         alignItems: "center",
         backgroundColor: "white",
         padding: 25,
-        paddingBottom: 100
     },
     logo: {
         width: 220,

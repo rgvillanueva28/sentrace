@@ -1,7 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Image, Alert, BackHandler, ImageBackground } from 'react-native';
-import { Block, theme, Text, NavBar } from 'galio-framework';
+import { Block, theme, Text, NavBar, Button } from 'galio-framework';
 import Header from '../Components/Header';
+import Tracer from '../Components/Tracer'
 
 function Home({ navigation }) {
     let phoneNum = navigation.getParam('phoneNum')
@@ -9,6 +10,8 @@ function Home({ navigation }) {
     let mName = navigation.getParam('mName')
     let lName = navigation.getParam('lName')
     let email = navigation.getParam('email')
+
+    const [enableBtn, setEnableBtn] = useState(false)
 
     useEffect(() => {
         const backAction = () => {
@@ -35,7 +38,7 @@ function Home({ navigation }) {
     return (
         <Block safe flex style={styles.mainContainer}>
             {/* <Header title="SENTRACE" /> */}
-            <ImageBackground source={require('../Assets/Images/BG.png')} style={styles.imgBG} imageStyle={{opacity: 0.5}}>
+            <ImageBackground source={require('../Assets/Images/BG.png')} style={styles.imgBG} imageStyle={{ opacity: 0.5 }}>
                 <Block style={styles.container}>
 
                     <Block center style={styles.imageContainer}>
@@ -45,15 +48,26 @@ function Home({ navigation }) {
                         ></Image>
                     </Block>
 
-                    {/* <Text style={styles.titleText}>SENTRACE</Text> */}
-                    <Text center h1>
-                        SENTRACE
+
+                    <Block center>
+                        {/* <Text style={styles.titleText}>SENTRACE</Text> */}
+                        <Text center h1>
+                            SENTRACE
                     </Text>
-                    <Text
-                        style={styles.contentText}
-                    >
-                        Lorem ipsum this wil contain the text if there will be any. Project Sentinel's SENTRACE Application
-</Text>
+                        <Text center p>Please enable Location and Bluetooth Permissions</Text>
+                        <Button
+                            color={theme.COLORS.INFO}
+                            size="small"
+                            round
+                            style={{ marginTop: 30 }}
+                            onPress={() => setEnableBtn(true)}
+                        >ENABLE</Button>
+                        {enableBtn ? <Tracer /> : null}
+                    </Block>
+
+
+
+
                 </Block>
             </ImageBackground>
 

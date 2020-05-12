@@ -4,7 +4,7 @@ import {
     Image,
     Dimensions,
     KeyboardAvoidingView,
-    ImageBackground
+    Alert
 } from 'react-native'
 import {
     Block,
@@ -20,26 +20,23 @@ import { Assets } from 'react-navigation-stack';
 const { height, width } = Dimensions.get('screen');
 
 function NumberScreen({ navigation }) {
-
-
     const [phoneNum, setPhoneNum] = useState("");
+    const [phoneNumError, setPhoneNumError] = useState("");
 
     const goToOTP = () => {
-        //if new
-        navigation.push("OTPScreen", {
-            phoneNum: phoneNum,
-            newUser: true,
-        })
+        if (phoneNum.trim().length < 11 || phoneNum.slice(0, 2) != '09') {
+            setPhoneNumError('Phone number must be 11 digits and starts with \'09\'');
+            //console.log('error: ' + phoneNumError);
+            //Alert.alert('Error', 'Phone number must be 11 digits and starts with \'09\'');
+            return;
+        } else {
+            //if new user
+            navigation.push("OTPScreen", { phoneNum })
 
-        //else
-        //navigation.push("Home");
-    }
+            //else 
+            //navigation.push("CompatibilityTestScreen");
+        }
 
-    const goToLogin = () => {
-        //if new
-        navigation.push("LoginScreen")
-        //else
-        //navigation.push("Home");
     }
 
     return (
@@ -64,6 +61,7 @@ function NumberScreen({ navigation }) {
                     style={styles.inputContainer}
                 >
                     <Input
+                        numeric
                         placeholder="09123456789"
                         color={theme.COLORS.INFO}
                         rounded
@@ -74,9 +72,16 @@ function NumberScreen({ navigation }) {
                         autoCompleteType="off"
                         style={{ borderColor: theme.COLORS.INFO }}
                         maxLength={11}
-                        keyboardType='phone-pad'
-                        onChangeText={(val) => setPhoneNum(val)}
+                        keyboardType='number-pad'
+                        bottomHelp
+                        help={
+                            <Text style={{color:theme.COLORS.ERROR}}>
+                                {phoneNumError === '' ? null : phoneNumError}
+                            </Text>
+                        }
+                        onChangeText={(val) => { setPhoneNum(val); setPhoneNumError(''); }}
                     />
+
                 </Block>
 
                 <Button
@@ -86,11 +91,6 @@ function NumberScreen({ navigation }) {
                     onPress={goToOTP}
                 >CONFIRM</Button>
 
-                {/* <Text>phone = {phoneNum}</Text> */}
-                <Block center style={{paddingTop:20}}>
-                    <Text >Already have an account?</Text>
-                    <Text color={theme.COLORS.INFO} onPress={goToLogin}>LOGIN HERE</Text>
-                </Block>
             </Block>
 
         </KeyboardAvoidingView>
